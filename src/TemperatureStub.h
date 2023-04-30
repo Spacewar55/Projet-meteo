@@ -1,33 +1,9 @@
 /**
-    Class MyButton : Gestion de la température (senseur) STUB
-    @file MyButton.h 
-    @author Alain Dubé
-    @version 1.0 10/02/23  
-    
-    Historique des versions   
-                            Versions  Date      Auteur      Description
-                            1.0      10/02/23    Ald        Première version de la classe
-                            
-                            
-    platform = espressif32
-    board = esp32doit-devkit-v1
-    framework = arduino
-    lib_deps = 
-        Aucune
-    Autres librairies (à copier dans le répertoire lib)
-        DHT
-    GPIO 
-        DHTPIN  15   // Définition de la Pin utilisée par le senseur DHT11 / DHT22
-    TYPES possibles 
-        DHTTYPE DHT11 ou DTH22  //Le type de senseur utilisé ( DHT22 a plus de précision)
-
-    Exemple d'utilisation 
-        #include "TemperatureStub.h"
-        temperatureStub = new TemperatureStub;
-        temperatureStub->init(DHTPIN, DHTTYPE); //Pin 15 et Type DHT11
-        float t = temperatureStub->getTemperature();
-        
-**/
+    Gestion de la température (STUB)
+    @file TemperatureStub.h
+    @author Alex De Souza
+    @version 1.0 17/02/23  
+*/
 
 #include <Arduino.h>
 
@@ -43,15 +19,16 @@ class TemperatureStub  {
         bool setUniteUsed(int _UniteUsed = 0);
         //Retourne la température su senseur
         float getTemperature();
+        //Retourne l'humidité du senseur
+        float getHumidite();
 
-    private : 
-        
-        //here we use 14 of ESP32 to read data
+    private :     
+        // Ici on utilise la pin 15 de l'ESP32
         int inputPinUsed =  15;
-        int typeSensorUsed =  DHT11;
+        int typeSensorUsed =  DHT22;
         int UniteUsed = 0; //0 : Celcius   1:Far
         DHT *dht = NULL;
         float lastTemperatureRead = -999;
-       
+        float lastHumiditeRead = -999;    
 };
 #endif

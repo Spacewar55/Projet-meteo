@@ -1,3 +1,10 @@
+/**
+    Gestion de la température (STUB)
+    @file main.cpp
+    @author Alex De Souza
+    @version 1.0 17/02/23  
+*/
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <iostream>
@@ -18,7 +25,8 @@ using namespace std;
 TemperatureStub *temperatureStub = NULL;
 
 //Récupération de la température
-float temperatureDuFour = 20;
+float temperatureDeLaStation = 20;
+float humiditeDeLaStation = 20;
 
 #include <WiFiManager.h>
 WiFiManager wm;
@@ -38,29 +46,18 @@ Adafruit_MQTT_Client mqtt(&client, mqttServer, mqttPort, mqttUsername, mqttPassw
 // Create a MQTT topic for publishing
 Adafruit_MQTT_Publish topic_publish = Adafruit_MQTT_Publish(&mqtt, "test");
 
-//Variable pour la connection Wifi
-const char *SSID = "METEO_";
-const char *PASSWORD = "meteo_";
-String ssIDRandom;
+//Variables pour la connection Wifi
+const char *SSID = "METEO_FYPC";
+const char *PASSWORD = "meteo_TWVF";
 
 void setup() {
   Serial.begin(9600);
-  
-  //Connection au WifiManager
-  String ssIDRandom, PASSRandom;
-  String stringRandom;
-  stringRandom = get_random_string(4).c_str();
-  ssIDRandom = SSID;
-  ssIDRandom = ssIDRandom + stringRandom;
-  stringRandom = get_random_string(4).c_str();
-  PASSRandom = PASSWORD;
-  PASSRandom = PASSRandom + stringRandom;
 
   char strToPrint[128];
-  sprintf(strToPrint, "Identification : %s   MotDePasse: %s", ssIDRandom, PASSRandom);
+  sprintf(strToPrint, "Identification : %s   MotDePasse: %s", SSID, PASSWORD);
   Serial.println(strToPrint);
 
-  if (!wm.autoConnect(ssIDRandom.c_str(), PASSRandom.c_str())) {
+  if (!wm.autoConnect(SSID, PASSWORD)) {
     Serial.println("Erreur de connexion.");
 
   } else {
@@ -85,12 +82,13 @@ void setup() {
 }
 
 void loop() {
-  // temperatureDuFour = temperatureStub->getTemperature();
-  // Serial.print("Température : ");
-  // Serial.println(temperatureDuFour);
   bool topicTemperature = topic_publish.publish(
-    temperatureDuFour = temperatureStub->getTemperature()
+    temperatureDeLaStation = temperatureStub->getTemperature()
+  );
+  bool topicHumidite = topic_publish.publish(
+    humiditeDeLaStation = temperatureStub->getHumidite()
   );
   Serial.println(topicTemperature);
+  Serial.println(topicHumidite);
   delay(3000);
 }

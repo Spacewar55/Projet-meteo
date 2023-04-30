@@ -1,8 +1,8 @@
 /**
-    Gestion de la température du Four (STUB)
+    Gestion de la température (STUB)
     @file TemperatureStub.cpp
-    @author Alain Dubé
-    @version 1.0 17/03/21  
+    @author Alex De Souza
+    @version 1.0 17/02/23  
 */
 
 #include "TemperatureStub.h"
@@ -29,7 +29,18 @@ float TemperatureStub::getTemperature(){
     // Check if any reads failed and exit early (to try again).
     if (isnan(t)) {
         t = lastTemperatureRead;
-        }
+    }
     lastTemperatureRead = t;
     return(t);
+}
+
+//Return -999 if error
+float TemperatureStub::getHumidite(){
+    float h = dht->readHumidity();
+    // Check if any reads failed and exit early (to try again).
+    if (isnan(h)) {
+        h = lastHumiditeRead;
     }
+    lastHumiditeRead = h;
+    return(h);
+}
